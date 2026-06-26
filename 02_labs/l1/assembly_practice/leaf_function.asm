@@ -29,17 +29,17 @@ main:
 	sw a2, 4(sp)
 	sw a3, 0(sp)
 	
-	# ~~ 3. Execute function
+	# ~~ 3. Execute function ~~
 	jal diffofsum
 	add s3, a0, zero	# a0 is the return val register
 	
-	# ~~ 4. Restore og values from stack
+	# ~~ 4. Restore og values from stack ~~
 	lw a0, 12(sp)
 	lw a1, 8(sp)
 	lw a2, 4(sp)
 	lw a3, 0(sp)
 	
-	# ~~ 5. Deallocate space on stack
+	# ~~ 5. Deallocate space on stack ~~
 	addi sp, sp, 16
 
 	# ~~ exit
