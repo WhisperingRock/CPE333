@@ -1,6 +1,0 @@
-0.7
-2020.2
-Nov 14 2025
-12:36:23
-/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.sim/sim_1/impl/timing/xsim/simMCycleOtter_time_impl.v,1783015946,verilog,,,,ALU;BAG;BCG;CU_FSM;CathodeDriver;Memory;OTTER;OTTER_Wrapper;PC;PC_REG;RAM32M_HD25;RAM32M_HD26;RAM32M_HD27;RAM32M_HD29;RAM32M_HD30;RAM32M_HD31;RAM32M_HD32;RAM32M_HD33;RAM32M_HD36;RAM32M_UNIQ_BASE_;RAM32X1D_HD28;RAM32X1D_HD34;RAM32X1D_HD35;RAM32X1D_UNIQ_BASE_;REG_FILE;SevSegDisp;glbl,,uvm,../../../../../../../../../../../../AMD/2025.2/data/rsb/busdef,,,,,
-/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/sim/MultiCycle_OTTER.v,1783011113,systemVerilog,,,,simMCycleOtter,,uvm,../../../../../../../../../../../../AMD/2025.2/data/rsb/busdef,,,,,
