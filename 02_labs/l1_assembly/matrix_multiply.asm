@@ -14,13 +14,13 @@
 # NOTE : Ensure the sp is at a high number for RISC-V
 # NOTE : USE THE MEM CONFIG SETTING "TEXT AT ADDR 0"
 
+.data
 
 # ~~~~~~~~ compile time ~~~~~~~~
-.equ M, 3 			# one dim of the mat 
+#.equ M, 3 			# one dim of the mat 
 
 
 # ~~~~~~~~ data segment (memory) ~~~~~~~~
-.data
 
 # ~~ TC : 2x2 identity matrix ~~
 #A: 	.word 1, 2, 3, 4
@@ -710,7 +710,6 @@ C:	.word -7:9
 .text
 .global main 			# main func is accessed by all
 
-	#li sp, 0x00003FFC	# set sp to perf.mem file limits
 
 main:
 	la s0, A		# s0 is the base addr of A
@@ -735,7 +734,7 @@ main:
 	addi a0, s0, 0		# a0 is base addr of mat A
 	addi a1, s1, 0		# a1 is base addr of mat B
 	addi a2, s2, 0		# a2 is base addr of mat C
-	addi a3, zero, M	# a3 is one dim of the mat
+	addi a3, zero, 3	# a3 is one dim of the mat
 	jal matmul		# no return val: C is in mem already
 	
 	# ~~ 4. Restore og values from stack (main:caller) ~~
