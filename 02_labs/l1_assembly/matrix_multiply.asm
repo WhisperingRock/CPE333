@@ -925,9 +925,8 @@ endwhile:
 	jr ra
 	
 
-	
-		
 				
-end:	# OTTER specific ending
-	li a7, 10
-	ecall 
+end:	# Return status
+	li a7, 10		# Load system call number for exit()
+	li a0, 0		# Load the exit status code ( EXIT_SUCCESS )
+	ecall 			# Make the system call exit() to term prog
