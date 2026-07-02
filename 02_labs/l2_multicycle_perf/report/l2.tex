@@ -101,39 +101,129 @@
 
 		\subsection{Procedure}
 			\begin{enumerate}
-				\item Compile the matrix multiplication program in the 
-						OTTER-memory mapped version of RARS. The machine
-						code file needs to be saved. 
+				\item For each matrix test case (3x3, 10x10, 16x16, 50x50) \ldots
 
-				\item Load the mem.txt file into the multicycle OTTER in 
-						Vivado and simulate. 
+				\item Compile the matrix multiplication program in the 
+						OTTER-memory mapped version of RARS. The RARS program
+						should compile but not run any instructions of assembly.
+						The machine code file needs to be saved as a .mem
+
+				\item Load the mem file into the multicycle OTTER in Vivado
+						and simulate.
 
 				\item Capture the waveforms for the matrix multiplication
 						to prove the correct execution. 
 
-				\item Provide CPU execution time , Power, and Area. 
+				\item Provide CPU execution time , Power, and Area utilization.
+			
 			\end{enumerate}
 
+	\newpage
 	\section{Testall Performance}
 
 		\subsection{Procedure}
 			\begin{enumerate}
-				\item Run the testall program and capture the waveforms and 
-						metrics from the MM performance
+				\item Load the testall mem file onto the multicycle otter. 
+						It should be noted that Diego's testall program 
+						worked well such that the Basys3 board also gave LED 
+						and sseg indicators that the system was working. 
+
+				\item Capture the same waveforms, cpu execution time, power, 
+						and area utilization. 
 			\end{enumerate}
 
+		\subsection{Results}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.8\textwidth]{./photos/testall_intro.png}
+				\caption{Uploading the testall memory}
+				\label{fig:-photos-testall_intro-png}
+			\end{figure}
+
+			\subsubsection{Timing}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.6\textwidth]{./photos/testall_clk.png}
+					\caption{Clock Speed}
+					\label{fig:-photos-testall_clk-png}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/testall_timing_target.png}
+					\caption{Target Instruction Address for Timing Intervals in \textbf{Test\_All\_Debug.txt}}
+					\label{fig:-photo-testall_timing}
+				\end{figure}
+
+				The \textit{loop} label was used for measurement because
+				the testall program returns to this after running all tests.
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/testall_timing1.png}
+					\caption{Measured Start Timestamp}
+					\label{fig:-photos-testall_timing1}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/testall_timing2.png}
+					\caption{Measured End Timestamp}
+					\label{fig:-photos-testall_timing2-png}
+				\end{figure}
+
+				 \begin{align*}
+					 t_{execution} &= t_{end} - t_{start}\\
+					 &= 550,250 ns - 1,170 ns \\
+					 &= 549,080 ns \\
+				 \end{align*}
+
+				 \begin{align*}
+					n_{CLK\_Cycles} &= \frac{t_{execution}}{T_{CLK}}\\
+					&= \frac{549080 ns}{10 ns} \\
+					&= 54,908 \\
+				 \end{align*}
+
+				 Note that the number above is not the number of instructions
+				 executed. 
+
+			\subsubsection{Other Metrics}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/testall_power.png}
+					\caption{Power Summary of Testall on Basys3}
+					\label{fig:-photos-testall_power}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/testall_area1.png}
+					\caption{Visual Utilization Map of Testall}
+					\label{fig:-photos-testall_area1}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/testall_area2.png}
+					\caption{Utilization Summary of Testall}
+					\label{fig:-photos-testall_area2-png}
+				\end{figure}
+								
+	\newpage
 	\section{Notes}
 		\subsection{RARS}
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=0.8\textwidth]{./photos/rars_memconfig}
+				\includegraphics[width=0.6\textwidth]{./photos/rars_memconfig}
 				\caption{RARS Memory Config Settings}
 				\label{fig:-photos-rars_memconfig}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=0.8\textwidth]{./photos/rars_dumpconfig}
+				\includegraphics[width=0.6\textwidth]{./photos/rars_dumpconfig}
 				\caption{RARS Memory Dump Config}
 				\label{fig:-photos-rars_dumpconsig}
 			\end{figure}
