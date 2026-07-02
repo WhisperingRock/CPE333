@@ -18,21 +18,21 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-module simMCycleOtter(
-     );
+module simMCycleOtter();
     
     logic CLK=0;
-    //logic BTNL;
+    logic BTNL;
     logic BTNC;
-    //logic PS2Clk;
-    //logic PS2Data;
-    //logic VGA_HS;
-    //logic VGA_VS;
-    //logic Tx;
-    //logic [15:0] SWITCHES,LEDS;
-    //logic [7:0] CATHODES; 
-    //logic [7:0] VGA_RGB;
-    //logic [3:0] ANODES;
+    logic PS2Clk;
+    logic PS2Data;
+    logic VGA_HS;
+    logic VGA_VS;
+    logic Tx;
+    logic [15:0] SWITCHES;
+    logic [15:0] LEDS;
+    logic [7:0] CATHODES; 
+    logic [7:0] VGA_RGB;
+    logic [3:0] ANODES;
    
     OTTER_Wrapper DUT (.*);
 
@@ -43,7 +43,7 @@ module simMCycleOtter(
         BTNC=1;
         #600 
         BTNC=0;
-        //SWITCHES=15'd0;
+        SWITCHES=15'd0;
 
       //$finish;
     end

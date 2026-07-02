@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 12:34:56 MST 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Thu Jul  2 10:28:51 2026
+# Process ID         : 96130
+# Current directory  : /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.runs/impl_1
+# Command line       : vivado -log OTTER_Wrapper.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source OTTER_Wrapper.tcl -notrace
+# Log file           : /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.runs/impl_1/OTTER_Wrapper.vdi
+# Journal file       : /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.runs/impl_1/vivado.jou
+# Running On         : TPX13-YG3-WR
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.4 LTS
+# Processor Detail   : 12th Gen Intel(R) Core(TM) i7-1265U
+# CPU Frequency      : 3412.894 MHz
+# CPU Physical cores : 10
+# CPU Logical cores  : 12
+# Host memory        : 33303 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 41893 MB
+# Available Virtual  : 30756 MB
+#-----------------------------------------------------------
+source OTTER_Wrapper.tcl -notrace

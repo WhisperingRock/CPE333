@@ -71,7 +71,9 @@
     
     initial begin
         //$readmemh("performance.mem", memory, 0, 16383);
-        $readmemh("tc3b3.mem", memory, 0, 16383);
+        //$readmemh("tc3b3.mem", memory, 0, 16383);
+        //$readmemh("testall_mem.mem", memory, 0, 16383);
+        $readmemh("Test_All.mem", memory, 0, 16383);
     end
     
     assign wordAddr2 = MEM_ADDR2[15:2];

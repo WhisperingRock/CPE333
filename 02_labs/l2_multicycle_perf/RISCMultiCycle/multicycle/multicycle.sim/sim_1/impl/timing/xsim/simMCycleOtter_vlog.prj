@@ -1,0 +1,9 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../../../../../../../../../AMD/2025.2/data/rsb/busdef" \
+"simMCycleOtter_time_impl.v" \
+
+sv xil_defaultlib  --include "../../../../../../../../../../../../AMD/2025.2/data/rsb/busdef" \
+"../../../../../sim/MultiCycle_OTTER.v" \
+
+# Do not sort compile order
+nosort

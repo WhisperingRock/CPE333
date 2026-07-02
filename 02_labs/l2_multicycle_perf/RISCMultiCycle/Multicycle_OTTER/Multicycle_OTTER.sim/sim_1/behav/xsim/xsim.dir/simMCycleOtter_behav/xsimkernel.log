@@ -1,7 +1,0 @@
-Running: xsim.dir/simMCycleOtter_behav/xsimk -simmode gui -wdb simMCycleOtter_behav.wdb -simrunnum 0 -socket 46207
-Design successfully loaded
-Design Loading Memory Usage: 199716 KB (Peak: 199724 KB)
-Design Loading CPU Usage: 670 ms
-Simulation completed
-Simulation Memory Usage: 281712 KB (Peak: 338984 KB)
-Simulation CPU Usage: 680 ms

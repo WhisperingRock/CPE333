@@ -1,0 +1,30 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.sim/sim_1/impl/timing/xsim/simMCycleOtter_time_impl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module RAM32M_UNIQ_BASE_
+INFO: [VRFC 10-311] analyzing module RAM32M_HD25
+INFO: [VRFC 10-311] analyzing module RAM32M_HD26
+INFO: [VRFC 10-311] analyzing module RAM32M_HD27
+INFO: [VRFC 10-311] analyzing module RAM32M_HD29
+INFO: [VRFC 10-311] analyzing module RAM32M_HD30
+INFO: [VRFC 10-311] analyzing module RAM32M_HD31
+INFO: [VRFC 10-311] analyzing module RAM32M_HD32
+INFO: [VRFC 10-311] analyzing module RAM32M_HD33
+INFO: [VRFC 10-311] analyzing module RAM32M_HD36
+INFO: [VRFC 10-311] analyzing module RAM32X1D_UNIQ_BASE_
+INFO: [VRFC 10-311] analyzing module RAM32X1D_HD28
+INFO: [VRFC 10-311] analyzing module RAM32X1D_HD34
+INFO: [VRFC 10-311] analyzing module RAM32X1D_HD35
+INFO: [VRFC 10-311] analyzing module ALU
+INFO: [VRFC 10-311] analyzing module BAG
+INFO: [VRFC 10-311] analyzing module BCG
+INFO: [VRFC 10-311] analyzing module CU_FSM
+INFO: [VRFC 10-311] analyzing module CathodeDriver
+INFO: [VRFC 10-311] analyzing module Memory
+INFO: [VRFC 10-311] analyzing module OTTER
+INFO: [VRFC 10-311] analyzing module OTTER_Wrapper
+INFO: [VRFC 10-311] analyzing module PC
+INFO: [VRFC 10-311] analyzing module PC_REG
+INFO: [VRFC 10-311] analyzing module REG_FILE
+INFO: [VRFC 10-311] analyzing module SevSegDisp
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/sim/MultiCycle_OTTER.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module simMCycleOtter
