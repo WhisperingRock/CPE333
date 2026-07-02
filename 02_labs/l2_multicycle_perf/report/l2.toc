@@ -1,0 +1,7 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {0.1}Matrix Multiplication Performance}{2}{section.0.1}%
+\contentsline {subsection}{\numberline {0.1.1}Procedure}{2}{subsection.0.1.1}%
+\contentsline {section}{\numberline {0.2}Testall Performance}{2}{section.0.2}%
+\contentsline {subsection}{\numberline {0.2.1}Procedure}{2}{subsection.0.2.1}%
+\contentsline {section}{\numberline {0.3}Notes}{2}{section.0.3}%
+\contentsline {subsection}{\numberline {0.3.1}RARS}{2}{subsection.0.3.1}%

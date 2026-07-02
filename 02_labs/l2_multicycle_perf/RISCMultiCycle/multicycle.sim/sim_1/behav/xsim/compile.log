@@ -1,0 +1,32 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/OTTER_Wrapper_v1_02.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER_Wrapper
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/ALU.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/BAG.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module BAG
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/BCG.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module BCG
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/CU_DCDR.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module CU_DCDR
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/CU_FSM.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module CU_FSM
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/FourMux.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module FourMux
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/ImmediateGenerator.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ImmediateGenerator
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/OTTER.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module OTTER
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/PC.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module PC
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/PC_MUX.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module PC_MUX
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/PC_REG.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module PC_REG
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/REG_FILE.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module REG_FILE
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/TwoMux.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module TwoMux
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/otter_memory_v1_07.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Memory
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/sim/MultiCycle_OTTER.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module simMCycleOtter
