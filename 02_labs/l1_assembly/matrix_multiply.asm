@@ -5,7 +5,7 @@
 #	- Each elem in C is not larger than 32-bits
 #
 # Inputs : [int] [m x m] A
-#	   [int] [m x m] B
+#		   [int] [m x m] B
 #
 # Return : [int] [m x m] C
 #
@@ -17,7 +17,7 @@
 .data
 
 # ~~~~~~~~ compile time ~~~~~~~~
-#.equ M, 3 			# one dim of the mat 
+.equ M, 3 			# one dim of the mat 
 
 
 # ~~~~~~~~ data segment (memory) ~~~~~~~~
@@ -71,7 +71,7 @@
 #answer = 3, 2, 1, 6, 5, 4, 9, 8, 7
 
 # ~~ TC : dataset3.h ~~
-A: 	.word 0, 3, 2, 0, 3, 1, 0, 3, 2
+A:	.word 0, 3, 2, 0, 3, 1, 0, 3, 2
 B:	.word 1, 1, 0, 3, 1, 2, 0, 0, 0
 C:	.word -7:9
 #answer = 9, 3, 6, 9, 3, 6, 9, 3, 6
@@ -710,8 +710,10 @@ C:	.word -7:9
 .text
 .global main 			# main func is accessed by all
 
+	
 
 main:
+	li sp, 0x00003FFC
 	la s0, A		# s0 is the base addr of A
 	la s1, B		# s1 is the base addr of B
 	la s2, C		# s2 is the base addr of C
@@ -734,7 +736,7 @@ main:
 	addi a0, s0, 0		# a0 is base addr of mat A
 	addi a1, s1, 0		# a1 is base addr of mat B
 	addi a2, s2, 0		# a2 is base addr of mat C
-	addi a3, zero, 3	# a3 is one dim of the mat
+	addi a3, zero, M	# a3 is one dim of the mat
 	jal matmul		# no return val: C is in mem already
 	
 	# ~~ 4. Restore og values from stack (main:caller) ~~
