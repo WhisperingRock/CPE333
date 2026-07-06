@@ -118,6 +118,139 @@
 			
 			\end{enumerate}
 
+		\subsection{Results}
+
+			All of the RARS matrix multiply compiles start and end 
+			with the same instruction address. For timing purposes, the 
+			hex address $0x54$ for start and $0x1E0$ will be used for 
+			the stop. 
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.8\textwidth]{./photos/rars_start.png}
+				\caption{MatrixMult.asm Start Codes for PC}
+				\label{fig:-photos-rars_start-png}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.8\textwidth]{./photos/rars_exit.png}
+				\caption{MatrixMult.asm Exit Codes for PC}
+				\label{fig:-photos-rars_exit-png}
+			\end{figure}
+			
+
+
+			\subsubsection{TC 3x3}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/m3/sim_before.png}
+					\caption{Results Matrix "C" before instruction execution.}
+					\label{fig:-photos-m3-}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/m3/sim_timing.png}
+					\caption{Waveform and Timing of TC 3x3 mat}
+					\label{fig:-photos-m3-sim_timing-png}
+				\end{figure}
+
+				\begin{align*}
+					 t_{execution} &= t_{end} - t_{start}\\
+					 &= 107.730 \mu s - 2.290 \mu s \\
+					 &= 105.44 \mu s \\
+				 \end{align*}
+
+				 \begin{align*}
+					n_{CLK\_Cycles} &= \frac{t_{execution}}{T_{CLK}}\\
+					&= \frac{105.44 \mu s}{10 ns} \\
+					&= 10,544 \\
+				 \end{align*}
+
+
+				
+			\subsubsection{TC 10x10}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/m10/sim_before.png}
+					\caption{Results Matrix "C" before instruction execution.}
+					\label{fig:-photos-m3-}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/m10/sim_timing.png}
+					\caption{Waveform and Timing of TC 10x10 mat}
+					\label{fig:-photos-m3-sim_timing-png}
+				\end{figure}
+
+				\begin{align*}
+					 t_{execution} &= t_{end} - t_{start}\\
+					 &= 3.69321 ms - 0.00229 ms \\
+					 &= 3.69092 ms \\
+				 \end{align*}
+
+				 \begin{align*}
+					n_{CLK\_Cycles} &= \frac{t_{execution}}{T_{CLK}}\\
+					&= \frac{3.69092  ms}{10 ns} \\
+					&= 369,092 \\
+				 \end{align*}
+
+			\subsubsection{TC 16x16}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/m16/sim_before.png}
+					\caption{Results Matrix "C" before instruction execution.}
+					\label{fig:-photos-m3-}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/m16/sim_timing.png}
+					\caption{Waveform and Timing of TC 16x16 mat}
+					\label{fig:-photos-m3-sim_timing-png}
+				\end{figure}
+
+				\begin{align*}
+					 t_{execution} &= t_{end} - t_{start}\\
+					 &= 14.82665 ms - 0.0022900 ms \\
+					 &= 14.82436 ms \\
+				 \end{align*}
+
+				 \begin{align*}
+					n_{CLK\_Cycles} &= \frac{t_{execution}}{T_{CLK}}\\
+					&= \frac{14.82665  ms}{10 ns} \\
+					&= 1,482,436 \\
+				 \end{align*}
+
+			\subsubsection{MatrixMult Summary}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./photos/rars_summary.png}
+					\caption{CLK Cycles vs. Number of Elements in the Matrix}
+					\label{fig:-photos-rars_summary-png}
+				\end{figure}
+
+				Power and utilization are the same for each matrix testcase.
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.6\textwidth]{./photos/m3/power.png}
+					\caption{Power Summary}
+					\label{fig:-photos-m3-power-png}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.6\textwidth]{./photos/m3/util.png}
+					\caption{Utilization Summary}
+					\label{fig:-photos-m3-util-png}
+				\end{figure}
+
+				
 	\newpage
 	\section{Testall Performance}
 
@@ -199,13 +332,6 @@
 
 				\begin{figure}[H]
 					\centering
-					\includegraphics[width=0.8\textwidth]{./photos/testall_area1.png}
-					\caption{Visual Utilization Map of Testall}
-					\label{fig:-photos-testall_area1}
-				\end{figure}
-
-				\begin{figure}[H]
-					\centering
 					\includegraphics[width=0.8\textwidth]{./photos/testall_area2.png}
 					\caption{Utilization Summary of Testall}
 					\label{fig:-photos-testall_area2-png}
@@ -226,6 +352,13 @@
 				\includegraphics[width=0.6\textwidth]{./photos/rars_dumpconfig}
 				\caption{RARS Memory Dump Config}
 				\label{fig:-photos-rars_dumpconsig}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.6\textwidth]{./photos/rars_needed.png}
+				\caption{Stack Pointer set after Data Segment}
+				\label{fig:-photos-rars_needed-png}
 			\end{figure}
 			
 \end{document}

@@ -21,7 +21,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.runs/impl_1'
+HD_PWD='/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle/multicycle.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

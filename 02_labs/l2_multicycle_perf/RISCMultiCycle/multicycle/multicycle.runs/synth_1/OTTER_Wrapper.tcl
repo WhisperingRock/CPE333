@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.runs/synth_1/OTTER_Wrapper.tcl"
+  variable script "/home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle/multicycle.runs/synth_1/OTTER_Wrapper.tcl"
   variable category "vivado_synth"
 }
 
@@ -56,7 +56,6 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param xicom.use_bs_reader 1
 set_param chipscope.maxJobs 3
 set_param general.usePosixSpawnForFork 1
 OPTRACE "Creating in-memory project" START { }
@@ -65,15 +64,15 @@ create_project -in_memory -part xc7a35tcpg236-1
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.cache/wt [current_project]
-set_property parent.project_path /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.xpr [current_project]
+set_property webtalk.parent_dir /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle/multicycle.cache/wt [current_project]
+set_property parent.project_path /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle/multicycle.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property ip_output_repo /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.cache/ip [current_project]
+set_property ip_output_repo /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle/multicycle.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_mem /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/testall/diego_testall/Test_All.mem
+read_mem /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/MatMul_RARS_dump/tc16x16.mem
 read_verilog -library xil_defaultlib -sv {
   /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/ALU.sv
   /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/src/BAG.sv
@@ -108,7 +107,7 @@ set_property used_in_implementation false [get_files /home/whirck/Desktop/Source
 
 set_param ips.enableIPCacheLiteLoad 1
 
-read_checkpoint -auto_incremental -incremental /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle.srcs/utils_1/imports/synth_1/OTTER_Wrapper.dcp
+read_checkpoint -auto_incremental -incremental /home/whirck/Desktop/Sources/2026_Summer/CPE333/02_labs/l2_multicycle_perf/RISCMultiCycle/multicycle/multicycle.srcs/utils_1/imports/synth_1/OTTER_Wrapper.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

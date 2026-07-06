@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (lin64) Build 6299465 Fri Nov 14 12:34:56 MST 2025
-| Date         : Thu Jul  2 10:29:10 2026
+| Date         : Mon Jul  6 15:14:37 2026
 | Host         : TPX13-YG3-WR running 64-bit Ubuntu 24.04.4 LTS
 | Command      : report_utilization -file OTTER_Wrapper_utilization_placed.rpt -pb OTTER_Wrapper_utilization_placed.pb
 | Design       : OTTER_Wrapper

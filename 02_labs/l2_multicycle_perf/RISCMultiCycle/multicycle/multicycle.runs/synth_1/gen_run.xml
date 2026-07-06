@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1783013295" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/OTTER_Wrapper.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1783376014" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/OTTER_Wrapper.dcp">
+  <File Type="VDS-TIMING-PB" Name="OTTER_Wrapper_timing_summary_synth.pb"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="OTTER_Wrapper_timing_summary_synth.rpt"/>
   <File Type="RDS-DCP" Name="OTTER_Wrapper.dcp"/>
-  <File Type="RDS-RDS" Name="OTTER_Wrapper.vds"/>
-  <File Type="RDS-UTIL" Name="OTTER_Wrapper_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="OTTER_Wrapper_utilization_synth.pb"/>
-  <File Type="PA-TCL" Name="OTTER_Wrapper.tcl"/>
+  <File Type="RDS-UTIL" Name="OTTER_Wrapper_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="OTTER_Wrapper_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="OTTER_Wrapper.vds"/>
   <File Type="REPORTS-TCL" Name="OTTER_Wrapper_reports.tcl"/>
+  <File Type="PA-TCL" Name="OTTER_Wrapper.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
-    <File Path="$PPRDIR/../../MatMul_RARS_dump/tc3b3.mem">
-      <FileInfo>
-        <Attr Name="UserDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
     <File Path="$PPRDIR/../src/ALU.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -120,13 +116,6 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/../testall/test_all/testall_mem.mem">
-      <FileInfo>
-        <Attr Name="UserDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
     <File Path="$PPRDIR/../src/SevSegDisp.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -148,7 +137,21 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/../../testall/diego_testall/Test_All.mem">
+    <File Path="$PPRDIR/../../MatMul_RARS_dump/tc3x3.mem">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../../MatMul_RARS_dump/tc10x10.mem">
+      <FileInfo>
+        <Attr Name="UserDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../../MatMul_RARS_dump/tc16x16.mem">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
