@@ -1,5 +1,23 @@
+# ~~~~ files ~~~~
+*.swp
+*.aux
+*.log
+*.pdf
 *.mp4
-*.rst
-*.rpt
-*.dcp
-*.rpx
+
+# ~~ latex ~~
+*.fdb_latexmk
+*.fls
+*.toc
+
+# ~~ vivado ~~
+*.cache*
+*.hw*
+*.ip_user_files*
+*.sim*
+*.src*
+*.sim*
+*.runs*
+
+# ~~~~ directories ~~~~
+05_vault/*
