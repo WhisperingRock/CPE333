@@ -1,0 +1,4 @@
+Paper assignment (Week 3) - paper2
+
+Title: Conservation Cores: Reducing the Energy of Mature Computations
+Link:  https://dl.acm.org/doi/pdf/10.1145/1735971.1736044

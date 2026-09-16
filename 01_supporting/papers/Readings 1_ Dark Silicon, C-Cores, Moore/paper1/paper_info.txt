@@ -1,0 +1,4 @@
+Paper assignment (Week 3) - paper1
+
+Title: Dark Silicon and the End of Multicore Scaling
+Link:  https://dl.acm.org/doi/abs/10.1145/2000064.2000108
