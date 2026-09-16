@@ -4,6 +4,7 @@
 *.log
 *.pdf
 *.mp4
+*.bkp
 
 # ~~ latex ~~
 *.fdb_latexmk
