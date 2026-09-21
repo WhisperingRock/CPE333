@@ -83,7 +83,8 @@ module Memory (
 		
 		//$readmemh("tc3x3.mem", memory, 0, 16383);							// cpe333 : lab2				
 		//$readmemh("tc10x10.mem", memory, 0, 16383);
-		$readmemh("tc16x16.mem", memory, 0, 16383);
+		//$readmemh("tc16x16.mem", memory, 0, 16383);
+		$readmemh("l3test_dump.mem", memory, 0, 16383);
 		
 		
 	end

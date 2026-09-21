@@ -5,7 +5,7 @@
 // 
 // Create Date: 08/14/2026 02:38:59 PM
 // Design Name: 
-// Module Name: CUnit_Decoder
+// Module Name: Data_Decoder
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module CUnit_Decoder(
+module Data_Decoder(
 
     // ~~~~ obtain inputs during/after EXEC ~~~~ 
     input logic [6:0]   OPCODE, 
@@ -29,11 +29,11 @@ module CUnit_Decoder(
     input logic         BR_EQ, BR_LT, BR_LTU,
     
     // ~~~~ MUX sel outs ~~~~ 
-    output logic [3:0]  ALU_FUNC,                               // ALU operation sel
-    output logic 		ALU_SRC_A,                              // ALU srcA sel
-    output logic [1:0]  ALU_SRC_B,                              // ALU srcB sel
     output logic [1:0]  PC_SOURCE,                              // input sel for program counter
-    output logic [1:0]  RF_WR_SEL                              // register file write (data) source sel
+    output logic [1:0]  RF_WR_SEL,                              // register file write (data) source sel
+    output logic		REG_WRITE,
+    output logic		MEM_WRITE,
+    output logic		MEM_READ2
     );
     
     
@@ -41,70 +41,60 @@ module CUnit_Decoder(
     begin
     
         // ~~ defaults ~~
-        ALU_FUNC   = 4'b0000;
-        ALU_SRC_A  = 2'b00;
-        ALU_SRC_B  = 3'b000;                                      
-        PC_SOURCE  = 3'b000;
-        RF_WR_SEL  = 2'b00;
-     
+        PC_SOURCE   = 2'b00;
+        RF_WR_SEL  	= 2'b00;
+		REG_WRITE	= 1'b0;
+		MEM_WRITE	= 1'b0;
+		MEM_READ2	= 1'b0;
+
 
 		case(OPCODE)
 	   
 			// ~~ loads (OP=3) ~~
 			7'b0000011: 
 			begin
-				ALU_SRC_B  = 3'b001;                                    // Select : immed (I-type)
-				RF_WR_SEL  = 2'b10;                                     // Select : rd = DOUT2 = ram[rs1 + immed]
+				RF_WR_SEL  	= 2'b10;                                     // Select : rd = DOUT2 = ram[rs1 + immed]
+				MEM_READ2	= 1'b1;
+				REG_WRITE	= 1'b1;
 			end
 			
 			// ~~ immed value (OP=19) ~~
 			7'b0010011: 
 			begin
-				ALU_FUNC = ((FUNC3 == 3'b101) && (FUNC7 == 1'b1)) ? ({1'b0, FUNC3} + 4'b1000) : {1'b0, FUNC3};
-				ALU_SRC_B  = 3'b001;                                    // Select immed I
 				RF_WR_SEL  = 2'b11;                                     // Select rd = result
+				REG_WRITE	= 1'b1;
 			end
 			
 			// ~~ add upper imm to pc (auipc) (OP=23) ~~
 			7'b0010111: 
 			begin
-
-				ALU_SRC_A  = 2'b01;                                     // Select : imm (U-type)
-				ALU_SRC_B  = 3'b011;                                    // Select : PC
 				RF_WR_SEL  = 2'b11;                                     // Select : result
+				REG_WRITE	= 1'b1;
 			end
 				  
 			// ~~ store (OP=35) ~~
 			7'b0100011: 
 			begin                    
-				ALU_SRC_B  = 3'b010;                                     // Select : immed (S-type)                      
+				MEM_WRITE	= 1'b1;                      
 			end
 			   
 			// ~~ Registers as value (OP=51) ~~
 			7'b0110011: 
-			begin
-			
-				 if((FUNC3 == 3'b000) || (FUNC3 == 3'b101))
-				 begin
-					ALU_FUNC = (FUNC7 == 1'b1) ? ({1'b0,FUNC3}+4'b1000) : {1'b0,FUNC3};
-				 end
-				 
-				 else begin ALU_FUNC = {1'b0,FUNC3}; end 
-													  
+			begin				  
 				 RF_WR_SEL  = 2'b11;                                     // Select rd = result
+				 REG_WRITE	= 1'b1;
 			end
 				 
 			// ~~ lui (OP=55) ~~
 			7'b0110111: 
-			begin
-				ALU_FUNC   = 4'b1001;                                   // Select : copy srcA                  
-				ALU_SRC_A  = 2'b01;                                     // Select : imm (U-type)                                    
+			begin                                
 				RF_WR_SEL  = 2'b11;                                     // Select : result
+				REG_WRITE	= 1'b1;
 			end
 			
 			// ~~ Branch (OP=99) ~~
 			7'b1100011: 
-			begin       
+			begin     
 				case(FUNC3)
 					3'b000: begin PC_SOURCE  = (BR_EQ)  ?   3'b010 : 3'b000;    end   // BEQ :  branch or PC+4
 					3'b001: begin PC_SOURCE  = (~BR_EQ) ?   3'b010 : 3'b000;    end   // BNE :  branch or PC+4

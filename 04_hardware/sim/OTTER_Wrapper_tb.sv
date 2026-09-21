@@ -16,7 +16,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-//                          ----> pair with cpe233 hw8 given testcode
+//                          ----> pair with cpe333 l3test.asm
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -63,15 +63,19 @@ module OTTER_Wrapper_tb();
             
             // ~~ defaults ~~
             clk         = 1'b1; 
-            reset       = 1'b0; 
+            reset       = 1'b1; 
             switches    = 16'd0;                 
-            #3000;                              // enough to start LOOP in asm
+            #1000;                              // enough to start LOOP in asm
+            reset       = 1'b0;
+
             
             
             // ~~ TC1 ~~
-            tc.new_test("First");
+            tc.new_test("l3test.asm");
             tnum = tc.get_testnum();
-                #3000;       
+            
+            	#3000;
+                  
             tc.test_done();
 
     end
