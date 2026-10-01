@@ -1,0 +1,56 @@
+
+{ 	signal:
+  	[
+      {
+        name: 'clk', 				
+        wave: 'P............',
+      	
+      },     
+      {
+        name: 'add x15, x12, x11', 	
+        wave:'34567x.......', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '....a.......'
+      },
+      {
+        name: 'lw x13, 4(x15)', 		
+        wave:'x39.4567x....', 
+        data: ["IF","STALL", "DE", "EX", "MEM", "WB"],
+        node: '..b....c....'
+      },
+      {
+        name: 'lw x12, 0(x2)', 		
+        wave:'x...34567x...', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        
+      },
+      {
+        name: 'or x13, x15, x13',	
+        wave:'x....394567x.', 
+        data: ["IF", "STALL", "DE", "EX", "MEM", "WB"],
+        node: '......d...e.'
+      },
+      {
+        name: 'sw x13, 0(x15)', 		
+        wave:'x......39.456', 
+        data: ["IF", "STALL", "DE", "EX", "MEM", "WB"],
+        node: '........f...'
+      }
+	],
+  
+  config: {hscale:1},
+  
+  head:
+  {
+    text: "No-Haz No-FWD Pipeline Practice",
+    tick:0
+  },
+  
+  "edge":
+  [
+    "a~b RAW", "c~d RAW", "e~f RAW"
+  ],
+    
+	
+}
+

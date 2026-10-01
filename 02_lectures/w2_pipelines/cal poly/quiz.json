@@ -1,0 +1,56 @@
+
+{ 	signal:
+  	[
+      {
+        name: 'clk', 				
+        wave: 'P..............',
+      	
+      },     
+      {
+        name: 'add x1, x2, x0', 	
+        wave:'34567x.........', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '....a'
+      },
+      {
+        name: 'sub x1, x2, x1', 		
+        wave: 'x39.4567x......', 
+        data: ["IF","STALL", "DE", "EX", "MEM", "WB"],
+        node: '..b....c..'
+      },
+      {
+        name: 'lw x3, 0(x1)', 		
+        wave: 'x...39.4567x...', 
+        data: ["IF", "STALL", "DE", "EX", "MEM", "WB"],
+        node: '.....d....e'
+      },
+      {
+        name: 'sw x4, 0(x3)',	
+        wave: 'x......39.4567x', 
+        data: ["IF", "STALL", "DE", "EX", "MEM", "WB"],
+        node: '........f.....'
+      },
+      {
+        name: 'add x1, x2, x3', 		
+        wave: 'x.........34567', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '............'
+      }
+	],
+  
+  config: {hscale:1},
+  
+  head:
+  {
+    text: "No-Haz Pipeline Practice",
+    tick:0
+  },
+  
+  "edge":
+  [
+  	"a~b", "c~d", "e~f"
+  ],
+    
+	
+}
+
