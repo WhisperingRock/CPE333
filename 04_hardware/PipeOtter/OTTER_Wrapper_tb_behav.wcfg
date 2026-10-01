@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="OTTER_Wrapper_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="OTTER_Wrapper_tb" />
+            <top_module name="\$unit_ALU_sv_3003792303 " />
+            <top_module name="glbl" />
+            <top_module name="tb_utils_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="700.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,601.329 ns"></ZoomEndTime>
+      <Cursor1Time time="51,000.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="203"></NameColumnWidth>
+      <ValueColumnWidth column_width="173"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="7" />
+   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/tnum">
+      <obj_property name="ElementShortName">tnum[31:0]</obj_property>
+      <obj_property name="ObjectShortName">tnum[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/OTTER_Wrapper_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/OTTER_Wrapper_tb/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[7]">
+      <obj_property name="ElementShortName">[7][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[8]">
+      <obj_property name="ElementShortName">[8][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[10]">
+      <obj_property name="ElementShortName">[10][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[11]">
+      <obj_property name="ElementShortName">[11][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[11][31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>

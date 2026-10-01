@@ -62,7 +62,7 @@ module OTTER_Wrapper(
     );
     
     // Declare OTTER_CPU ////////////////////////////////////////////////////
-    Otter_MCU OTTER_MCU(
+    Otter_MCU_piped OTTER_MCU_PIPED(
         .RST(s_reset_oneshot), 
         .CLK(clk_50),
         //.INTRR(s_intrr_oneshot),
