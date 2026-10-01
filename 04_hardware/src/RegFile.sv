@@ -65,7 +65,8 @@ module RegFile
 
 
     // ~~~~ synch write ~~~~
-    always_ff@(posedge CLK)         // changes on clk demand sequental logic (use nonblocking)
+	// Note : Pipelined write now falls on negedge rather than pos (as prev)
+    always_ff@(negedge CLK)         // changes on clk demand sequental logic (use nonblocking)
     begin
         if((EN == 1'b1) && (W_ADR != 5'b00000))
         begin 

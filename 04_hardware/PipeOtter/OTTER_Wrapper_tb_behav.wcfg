@@ -13,15 +13,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1,513.723 ns"></ZoomStartTime>
-      <ZoomEndTime time="1,706.724 ns"></ZoomEndTime>
-      <Cursor1Time time="1,543.523 ns"></Cursor1Time>
+      <ZoomStartTime time="700.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="1,601.329 ns"></ZoomEndTime>
+      <Cursor1Time time="51,000.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="170"></NameColumnWidth>
-      <ValueColumnWidth column_width="148"></ValueColumnWidth>
+      <NameColumnWidth column_width="203"></NameColumnWidth>
+      <ValueColumnWidth column_width="173"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="7" />
    <wvobject type="array" fp_name="/OTTER_Wrapper_tb/tnum">
       <obj_property name="ElementShortName">tnum[31:0]</obj_property>
       <obj_property name="ObjectShortName">tnum[31:0]</obj_property>
@@ -34,59 +34,24 @@
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/MEMORY/MEM_DOUT1">
-      <obj_property name="ElementShortName">MEM_DOUT1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">MEM_DOUT1[31:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[7]">
       <obj_property name="ElementShortName">[7][31:0]</obj_property>
       <obj_property name="ObjectShortName">[7][31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[8]">
       <obj_property name="ElementShortName">[8][31:0]</obj_property>
       <obj_property name="ObjectShortName">[8][31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[10]">
       <obj_property name="ElementShortName">[10][31:0]</obj_property>
       <obj_property name="ObjectShortName">[10][31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/ram[11]">
       <obj_property name="ElementShortName">[11][31:0]</obj_property>
       <obj_property name="ObjectShortName">[11][31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/pr.p1_srcA">
-      <obj_property name="ElementShortName">.p1_srcA[31:0]</obj_property>
-      <obj_property name="ObjectShortName">.p1_srcA[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/pr.p1_srcB">
-      <obj_property name="ElementShortName">.p1_srcB[31:0]</obj_property>
-      <obj_property name="ObjectShortName">.p1_srcB[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/pr.p2_alu_result">
-      <obj_property name="ElementShortName">.p2_alu_result[31:0]</obj_property>
-      <obj_property name="ObjectShortName">.p2_alu_result[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/EN">
-      <obj_property name="ElementShortName">EN</obj_property>
-      <obj_property name="ObjectShortName">EN</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/pr.p3_rf_wr_sel">
-      <obj_property name="ElementShortName">.p3_rf_wr_sel[1:0]</obj_property>
-      <obj_property name="ObjectShortName">.p3_rf_wr_sel[1:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/W_ADR">
-      <obj_property name="ElementShortName">W_ADR[4:0]</obj_property>
-      <obj_property name="ObjectShortName">W_ADR[4:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/OTTER_Wrapper_tb/UUT/OTTER_MCU_PIPED/REG_FILE/W_DATA">
-      <obj_property name="ElementShortName">W_DATA[31:0]</obj_property>
-      <obj_property name="ObjectShortName">W_DATA[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
 </wave_config>

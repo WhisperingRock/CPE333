@@ -1,0 +1,80 @@
+
+{ 	signal:
+  	[
+      {
+        name: 'clk', 				
+        wave: 'P............',
+      	
+      },     
+      {
+        name: 'addi x7, zero, 7', 	
+        wave: '34567x.......', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'addi x8, zero, 40', 		
+        wave: 'x34567x......', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'addi x10, zero, 10', 		
+        wave: 'x.34567x.....', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'nop',	
+        wave: 'x..22222x....', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'nop', 		
+        wave: 'x...22222x...', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'or x11, x7, x10', 		
+        wave: 'x....34567x..', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'nop',	
+        wave: 'x.....22222x.', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'nop', 		
+        wave: 'x......22222x', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'sw x11, 0(x8)', 		
+        wave: 'x.......34567', 
+        data: ["IF","DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+	],
+  
+  config: {hscale:1},
+  
+  head:
+  {
+    text: "No-Haz Pipeline Practice",
+    tick:0
+  },
+  
+  "edge":
+  [
+  	"a~b", "c~d",
+  ],
+    
+	
+}
+
