@@ -275,8 +275,8 @@ module Otter_MCU_piped
     logic           	br_eq, br_lt, br_ltu;
     
     BranchConditionGen BRANCH_COND_GEN(
-        .RS1			(pr.pr1.rs1),       			// 32'b I
-        .RS2			(pr.pr1.rs2),        		// 32'b I
+        .RS1			(fwd_src_r1),       			// 32'b I
+        .RS2			(fwd_src_r2),        		// 32'b I
         // ~~
         .BR_EQ			(br_eq),          			// 1'b O
         .BR_LT			(br_lt),          			// 1'b O
@@ -317,7 +317,7 @@ module Otter_MCU_piped
 		pr.pr1.srcA		     //			0
 	};
 	
-	Mux_N 
+	Mux_N  
 	#(
 		.WIDTH			(32), 
 		.INPUTS			(4), 
@@ -353,10 +353,33 @@ module Otter_MCU_piped
 		.DOUT			(fwd_srcB)
 	);
 	
-	// ======= FWD C Mux =======	
-	logic [3:0][31:0] 	din_fwd_scrc_mux;
-	logic [31:0]		fwd_srcC; 
-	assign 				din_fwd_scrc_mux = {
+	// ======= FWD RD1 Mux =======	
+	logic [3:0][31:0] 	din_fwd_scr_r1_mux;
+	logic [31:0]		fwd_src_r1; 
+	assign 				din_fwd_scr_r1_mux = {
+		32'hDEAD_BEEF,       // option 	3 
+		pr.pr2.alu_result,   // 	   	2
+		reg_w_data, 		 //			1
+		pr.pr1.rs1		     //			0
+	};
+	
+	Mux_N 
+	#(
+		.WIDTH			(32), 
+		.INPUTS			(4), 
+		.SEL_WIDTH		()
+	)
+	FWD_SRC_RD1_MUX 
+	(
+		.DIN			(din_fwd_scr_r1_mux),
+		.SEL			(fwd_selR1),
+		.DOUT			(fwd_src_r1)
+	);
+			
+	// ======= FWD RD2 Mux =======	
+	logic [3:0][31:0] 	din_fwd_scr_r2_mux;
+	logic [31:0]		fwd_src_r2; 
+	assign 				din_fwd_scr_r2_mux = {
 		32'hDEAD_BEEF,       // option 	3 
 		pr.pr2.alu_result,   // 	   	2
 		reg_w_data, 		 //			1
@@ -369,11 +392,11 @@ module Otter_MCU_piped
 		.INPUTS			(4), 
 		.SEL_WIDTH		()
 	)
-	FWD_SRCC_MUX 
+	FWD_SRC_RD2_MUX 
 	(
-		.DIN			(din_fwd_scrc_mux),
-		.SEL			(fwd_selC),
-		.DOUT			(fwd_srcC)
+		.DIN			(din_fwd_scr_r2_mux),
+		.SEL			(fwd_selR2),
+		.DOUT			(fwd_src_r2)
 	);
 
     // ======= Arithmetic Logic Unit =======
@@ -397,7 +420,7 @@ module Otter_MCU_piped
     
     BranchAddrGen BRANCH_ADDR_GEN
     (
-        .RS1			(pr.pr1.rs1),            	// 32'b I 
+        .RS1			(fwd_src_r1),            	// 32'b I 
         .I_TYPE			(pr.pr1.it),            		// 32'b I 
         .J_TYPE			(pr.pr1.jt),            		// 32'b I
         .B_TYPE			(pr.pr1.bt),            		// 32'b I
@@ -442,29 +465,27 @@ module Otter_MCU_piped
 // ================= HAZARDS =================
 
 	logic 		stall_pipe_ifde;
-	logic 		flush_pipe_deex;
-	logic [1:0]	fwd_selA, fwd_selB, fwd_selC;
+	logic 		flush_pipe_ifde, flush_pipe_deex;
+	logic [1:0]	fwd_selA, fwd_selB, fwd_selR1, fwd_selR2;
 
 	HazardUnit HAZ_UNIT
 	(	
 		// ~~~~ fetch ~~~~
 		.STALL_PC				(stall_pc), 		// 1'b O
 		.STALL_PIPE_IFDE		(stall_pipe_ifde),	// 1'b O
+		.FLUSH_PIPE_IFDE		(flush_pipe_ifde), 	// 1'b O
 	
 		// ~~~~ decode ~~~~
-		.DE_RS1					(pr.pr0.ir[19:15]),	// 5'b I
-		.DE_RS2					(pr.pr0.ir[24:20]),	// 5'b I
+		.DE_IR					(pr.pr0.ir),		// 32'b I
 		.FLUSH_PIPE_DEEX		(flush_pipe_deex), 	// 1'b O
 	
 		// ~~~~ execute ~~~~
-		.EX_RS1					(pr.pr1.ir[19:15]), // 5'b I 
-		.EX_RS2					(pr.pr1.ir[24:20]), // 5'b I
-		.EX_RD					(pr.pr1.ir[11:7]), 	// 5'b I
-		.EX_RFWR_SEL			(rf_wr_sel), 		// 2'b I
-		.EX_MEM_WRITE			(mem_write), 		// 1'b I
-		.FWD_SELA				(fwd_selA), 		// 2'b O
-		.FWD_SELB				(fwd_selB), 		// 2'b O
-		.FWD_SELC				(fwd_selC), 		// 2'b O
+		.EX_IR					(pr.pr1.ir),		// 32'b I
+		.EX_PC_SRC				(pc_source), 		// 2'b I
+		.FWD_SEL_ALUA			(fwd_selA), 		// 2'b O
+		.FWD_SEL_ALUB			(fwd_selB), 		// 2'b O
+		.FWD_SEL_RD1			(fwd_selR1), 		// 2'b O
+		.FWD_SEL_RD2			(fwd_selR2), 		// 2'b O
 	
 		// ~~~~ memory ~~~~
 		.MEM_RD					(pr.pr2.ir[11:7]), 	// 5'b I 
@@ -488,7 +509,10 @@ module Otter_MCU_piped
     	else begin
     	
     		// ~~ pipe register 0 : IF -> DE ~~
-    		if(!stall_pipe_ifde) begin
+    		if(flush_pipe_ifde) begin
+    			pr.pr0				<= '0;
+    		end
+    		else if(!stall_pipe_ifde) begin
 				pr.pr0.pc			<= pc; 
 				pr.pr0.pcplus4		<= pc_p4;
 				pr.pr0.ir			<= ir;
@@ -522,7 +546,7 @@ module Otter_MCU_piped
     		pr.pr2.pcplus4			<= pr.pr1.pcplus4;
     		pr.pr2.ir				<= pr.pr1.ir;
     		
-    		pr.pr2.rs2				<= fwd_srcC;
+    		pr.pr2.rs2				<= fwd_src_r2;
     		// ~ alu ~
     		pr.pr2.alu_result		<= result;
     		// ~ data decoder ~
