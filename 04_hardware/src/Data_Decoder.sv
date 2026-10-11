@@ -96,26 +96,28 @@ module Data_Decoder(
 			7'b1100011: 
 			begin     
 				case(FUNC3)
-					3'b000: begin PC_SOURCE  = (BR_EQ)  ?   3'b010 : 3'b000;    end   // BEQ :  branch or PC+4
-					3'b001: begin PC_SOURCE  = (~BR_EQ) ?   3'b010 : 3'b000;    end   // BNE :  branch or PC+4
-					3'b100: begin PC_SOURCE  = (BR_LT)  ?   3'b010 : 3'b000;    end   // BLT :  branch or PC+4
-					3'b101: begin PC_SOURCE  = (~BR_LT) ?   3'b010 : 3'b000;    end   // BGE :  branch or PC+4
-					3'b110: begin PC_SOURCE  = (BR_LTU) ?   3'b010 : 3'b000;    end   // BLTU : branch or PC+4
-					3'b111: begin PC_SOURCE  = (~BR_LTU)?   3'b010 : 3'b000;    end   // BGEU : branch or PC+4
-					default: begin PC_SOURCE = 3'b000; end
+					3'b000: begin PC_SOURCE  = (BR_EQ)  ?   2'b10 : 2'b00;    end   // BEQ :  branch or PC+4
+					3'b001: begin PC_SOURCE  = (~BR_EQ) ?   2'b10 : 2'b00;    end   // BNE :  branch or PC+4
+					3'b100: begin PC_SOURCE  = (BR_LT)  ?   2'b10 : 2'b00;    end   // BLT :  branch or PC+4
+					3'b101: begin PC_SOURCE  = (~BR_LT) ?   2'b10 : 2'b00;    end   // BGE :  branch or PC+4
+					3'b110: begin PC_SOURCE  = (BR_LTU) ?   2'b10 : 2'b00;    end   // BLTU : branch or PC+4
+					3'b111: begin PC_SOURCE  = (~BR_LTU)?   2'b10 : 2'b00;    end   // BGEU : branch or PC+4
+					default: begin PC_SOURCE = 2'b00; end
 				endcase                                    
 			end
 					  
 			// ~~ Jump and link register (OP=103) ~~
 			7'b1100111:
 			begin                  
-				PC_SOURCE = 3'b001;                                      // Select JALR                                    
+				PC_SOURCE = 2'b01;                                      // Select JALR
+				REG_WRITE	= 1'b1;                                
 			end  
 			
 			// ~~ Jump and link (OP=111) ~~
 			7'b110_1111: 
 			begin               
-				PC_SOURCE = 3'b011;                                      // Select JAL                                    
+				PC_SOURCE = 2'b11;                                      // Select JAL
+				REG_WRITE	= 1'b1;                                    
 			end
 					   
 		endcase
