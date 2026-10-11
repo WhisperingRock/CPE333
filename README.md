@@ -6,14 +6,16 @@ tags: ["RISCV", "pipeline", "hazard", "cache", "open-source"]
 ---
 
 
-## ✨ Key Features
+# ✨ Key Features
 - **Pipelining** 
 - **Hazard FWD and Stalling** 
 
 
-### **Visualization**
+# **Visualization**
 
+## Naive Pipeline
 ![Naive Pipeline](./pipeline_nohaz.png)
 
+## Hazard-Handling Pipeline
 ![Hazard-Handling Pipeline](./pipeline_haz.png)
 
