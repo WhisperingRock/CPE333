@@ -21,50 +21,65 @@
 typedef struct packed
 {
 	// ~~ pipe register 0 : IF -> DE ~~
-	logic [31:0]	p0_pc; 
-	logic [31:0]	p0_pcplus4;
-	logic [31:0]	p0_ir;
-	
-	
+	logic [31:0]	pc; 
+	logic [31:0]	pcplus4;
+	logic [31:0]	ir;
+} pr0_t; 
+
+typedef struct packed
+{
 	// ~~ pipe register 1 : DE -> EX ~~
-	logic [31:0]	p1_pc; 
-	logic [31:0]	p1_pcplus4;
-	logic [31:0]	p1_ir;
+	logic [31:0]	pc; 
+	logic [31:0]	pcplus4;
+	logic [31:0]	ir;
 	
-	logic [31:0]	p1_rs1, p1_rs2;
-	logic [31:0]	p1_srcA;
-	logic [31:0]	p1_srcB;
+	logic [31:0]	rs1, rs2;
+	logic [31:0]	srcA;
+	logic [31:0]	srcB;
 
-	logic [31:0]	p1_it;
-	logic [31:0]	p1_jt;
-	logic [31:0]	p1_bt;
+	logic [31:0]	it;
+	logic [31:0]	jt;
+	logic [31:0]	bt;
 	
-	logic [3:0]		p1_alu_func; 
-	
-	
-	 // ~~ pipe register 2 : EX -> MEM ~~
-	logic [31:0]	p2_pcplus4;
-	logic [31:0]	p2_ir;
-	
-	logic [31:0]	p2_rs2;
-	logic [31:0]	p2_alu_result;
-	
-	logic [1:0]		p2_rf_wr_sel;
-	logic			p2_reg_write; 
-	logic			p2_mem_write; 
-	logic			p2_mem_read2;	
+	logic [3:0]		alu_func; 
+} pr1_t;
 
+typedef struct packed
+{
+	// ~~ pipe register 2 : EX -> MEM ~~
+	logic [31:0]	pcplus4;
+	logic [31:0]	ir;
+	
+	logic [31:0]	rs2;
+	logic [31:0]	alu_result;
+	
+	logic [1:0]		rf_wr_sel;
+	logic			reg_write; 
+	logic			mem_write; 
+	logic			mem_read2;	
+} pr2_t;
 
+typedef struct packed
+{
 	 // ~~ pipe register 3 : MEM -> WB ~~
-	logic [31:0]	p3_pcplus4;
-	logic [31:0]	p3_ir;
+	logic [31:0]	pcplus4;
+	logic [31:0]	ir;
 	
-	logic [31:0]	p3_dout2;
-	logic [31:0]	p3_alu_result;
+	logic [31:0]	dout2;
+	logic [31:0]	alu_result;
 	
-	logic [1:0]		p3_rf_wr_sel;
-	logic			p3_reg_write; 
+	logic [1:0]		rf_wr_sel;
+	logic			reg_write; 
 
+} pr3_t;
+
+
+typedef struct packed
+{
+	pr0_t pr0; 
+	pr1_t pr1; 
+	pr2_t pr2; 
+	pr3_t pr3; 
 
 } pipereg_t; 
 
@@ -110,13 +125,14 @@ module Otter_MCU_piped
 	// ======= Program Counter =======
 	logic [31:0]    	pc;
 	logic [31:0]    	pc_p4;
-	logic           	reset; 
+	logic           	reset;
+	logic				stall_pc; 
 	assign reset		= RST;
     PC_Reg PC
     (
         .CLK			(CLK),              // 1'b I                 
         .PC_RST			(reset),         	// 1'b I     
-        .PC_WE			(1'b1),     		// 1'b I
+        .PC_WE			(!stall_pc),     	// 1'b I
         .PC_DIN			(pcmux_out),     	// 32'b I
         // ~~
         .PC_COUNT		(pc)           		// 32'b O
@@ -143,16 +159,16 @@ module Otter_MCU_piped
         
         
         // ~~ MEM stage ~~
-        .MEM_RDEN2		(pr.p2_mem_read2),  // 1'b I
-        .MEM_WE2		(pr.p2_mem_write),  // 1'b I
-        .MEM_ADDR2		(pr.p2_alu_result),	// 32'b I
-        .MEM_DIN2		(pr.p2_rs2),        // 32'b I
-        .MEM_SIZE		(pr.p2_ir[13:12]),  // 2'b I
-        .MEM_SIGN		(pr.p2_ir[14]),     // 1'b I
-        .IO_IN			(IOBUS_IN),       	// 32'b I  
+        .MEM_RDEN2		(pr.pr2.mem_read2),  		// 1'b I
+        .MEM_WE2		(pr.pr2.mem_write),  		// 1'b I
+        .MEM_ADDR2		(pr.pr2.alu_result),		// 32'b I
+        .MEM_DIN2		(pr.pr2.rs2),        		// 32'b I
+        .MEM_SIZE		(pr.pr2.ir[13:12]),  		// 2'b I
+        .MEM_SIGN		(pr.pr2.ir[14]),     		// 1'b I
+        .IO_IN			(IOBUS_IN),       			// 32'b I  
 		// ~~
-        .IO_WR			(IOBUS_WR),       	// 1'b O  
-        .MEM_DOUT2		(dout2)       		// 32'b O
+        .IO_WR			(IOBUS_WR),       			// 1'b O  
+        .MEM_DOUT2		(dout2)       				// 32'b O
     );
     
     
@@ -165,9 +181,9 @@ module Otter_MCU_piped
 	logic [31:0]    	src_a, src_b;
 
 	ALU_Decoder ALU_DCDR(
-		.OPCODE			(pr.p0_ir[6:0]),       		// 7'b I
-		.FUNC3			(pr.p0_ir[14:12]),      	// 3'b I
-		.FUNC7			(pr.p0_ir[30]),         	// 1'b I
+		.OPCODE			(pr.pr0.ir[6:0]),       		// 7'b I
+		.FUNC3			(pr.pr0.ir[14:12]),      	// 3'b I
+		.FUNC7			(pr.pr0.ir[30]),         	// 1'b I
 
 		// ~~
 		.ALU_FUNC		(alu_func),    				// 4'b O
@@ -190,14 +206,14 @@ module Otter_MCU_piped
 	(
 		// ~~ DE stage ~~
 		.CLK			(CLK),              		// 1'b I
-		.ADR1			(pr.p0_ir[19:15]),      	// 5'b I
-		.ADR2			(pr.p0_ir[24:20]),      	// 5'b I
+		.ADR1			(pr.pr0.ir[19:15]),      	// 5'b I
+		.ADR2			(pr.pr0.ir[24:20]),      	// 5'b I
 		.RS1			(rs1),              		// 32'b O
 		.RS2			(rs2),               		// 32'b O
 		
 		// ~~ WB stage ~~
-		.EN				(pr.p3_reg_write),      	// 1'b I
-		.W_ADR			(pr.p3_ir[11:7]),       	// 5'b I
+		.EN				(pr.pr3.reg_write),      	// 1'b I
+		.W_ADR			(pr.pr3.ir[11:7]),       	// 5'b I
 		.W_DATA			(reg_w_data)    			// 32'b I
 
 	);
@@ -208,7 +224,7 @@ module Otter_MCU_piped
 	ImmedGen #(32) 
 	IMMED_GEN
 	(
-		.INSTR			(pr.p0_ir),         		// 32'b I but only 25 are used
+		.INSTR			(pr.pr0.ir),         		// 32'b I but only 25 are used
 		// ~~ 	
 		.U_TYPE			(ut),            			// 32'b O
 		.I_TYPE			(it),            			// 32'b O
@@ -236,7 +252,7 @@ module Otter_MCU_piped
 	
 	// ======= SrcB Mux =======	
 	logic [3:0][31:0] din_alu_scrb_mux;
-	assign din_alu_scrb_mux = {pr.p0_pc, st, it, rs2}; 		// {..., in3, in2, in1, in0}
+	assign din_alu_scrb_mux = {pr.pr0.pc, st, it, rs2}; 		// {..., in3, in2, in1, in0}
 	Mux_N 
 	#(
 		.WIDTH			(32), 
@@ -259,8 +275,8 @@ module Otter_MCU_piped
     logic           	br_eq, br_lt, br_ltu;
     
     BranchConditionGen BRANCH_COND_GEN(
-        .RS1			(pr.p1_rs1),       			// 32'b I
-        .RS2			(pr.p1_rs2),        		// 32'b I
+        .RS1			(fwd_src_r1),       			// 32'b I
+        .RS2			(fwd_src_r2),        		// 32'b I
         // ~~
         .BR_EQ			(br_eq),          			// 1'b O
         .BR_LT			(br_lt),          			// 1'b O
@@ -276,9 +292,9 @@ module Otter_MCU_piped
 	logic				mem_read2;
 	
 	Data_Decoder DATA_DCDR(
-		.OPCODE			(pr.p1_ir[6:0]),       		// 7'b I
-		.FUNC3			(pr.p1_ir[14:12]),      	// 3'b I
-		.FUNC7			(pr.p1_ir[30]),         	// 1'b I
+		.OPCODE			(pr.pr1.ir[6:0]),       		// 7'b I
+		.FUNC3			(pr.pr1.ir[14:12]),      	// 3'b I
+		.FUNC7			(pr.pr1.ir[30]),         	// 1'b I
 		.BR_EQ			(br_eq),					// 1'b I
 		.BR_LT			(br_lt),					// 1'b I
 		.BR_LTU			(br_ltu),					// 1'b I
@@ -291,6 +307,97 @@ module Otter_MCU_piped
 
 	);
 
+	// ======= FWD A Mux =======	
+	logic [3:0][31:0] 	din_fwd_scra_mux;
+	logic [31:0]		fwd_srcA; 
+	assign 				din_fwd_scra_mux = {
+		32'hDEAD_BEEF,       // option 	3 
+		pr.pr2.alu_result,   // 	   	2
+		reg_w_data, 		 //			1
+		pr.pr1.srcA		     //			0
+	};
+	
+	Mux_N  
+	#(
+		.WIDTH			(32), 
+		.INPUTS			(4), 
+		.SEL_WIDTH		()
+	)
+	FWD_SRCA_MUX 
+	(
+		.DIN			(din_fwd_scra_mux),
+		.SEL			(fwd_selA),
+		.DOUT			(fwd_srcA)
+	);
+	
+	// ======= FWD B Mux =======	
+	logic [3:0][31:0] 	din_fwd_scrb_mux;
+	logic [31:0]		fwd_srcB; 
+	assign 				din_fwd_scrb_mux = {
+		32'hDEAD_BEEF,       // option 	3 
+		pr.pr2.alu_result,   // 	   	2
+		reg_w_data, 		 //			1
+		pr.pr1.srcB		     //			0
+	};
+	
+	Mux_N 
+	#(
+		.WIDTH			(32), 
+		.INPUTS			(4), 
+		.SEL_WIDTH		()
+	)
+	FWD_SRCB_MUX 
+	(
+		.DIN			(din_fwd_scrb_mux),
+		.SEL			(fwd_selB),
+		.DOUT			(fwd_srcB)
+	);
+	
+	// ======= FWD RD1 Mux =======	
+	logic [3:0][31:0] 	din_fwd_scr_r1_mux;
+	logic [31:0]		fwd_src_r1; 
+	assign 				din_fwd_scr_r1_mux = {
+		32'hDEAD_BEEF,       // option 	3 
+		pr.pr2.alu_result,   // 	   	2
+		reg_w_data, 		 //			1
+		pr.pr1.rs1		     //			0
+	};
+	
+	Mux_N 
+	#(
+		.WIDTH			(32), 
+		.INPUTS			(4), 
+		.SEL_WIDTH		()
+	)
+	FWD_SRC_RD1_MUX 
+	(
+		.DIN			(din_fwd_scr_r1_mux),
+		.SEL			(fwd_selR1),
+		.DOUT			(fwd_src_r1)
+	);
+			
+	// ======= FWD RD2 Mux =======	
+	logic [3:0][31:0] 	din_fwd_scr_r2_mux;
+	logic [31:0]		fwd_src_r2; 
+	assign 				din_fwd_scr_r2_mux = {
+		32'hDEAD_BEEF,       // option 	3 
+		pr.pr2.alu_result,   // 	   	2
+		reg_w_data, 		 //			1
+		pr.pr1.rs2		     //			0
+	};
+	
+	Mux_N 
+	#(
+		.WIDTH			(32), 
+		.INPUTS			(4), 
+		.SEL_WIDTH		()
+	)
+	FWD_SRC_RD2_MUX 
+	(
+		.DIN			(din_fwd_scr_r2_mux),
+		.SEL			(fwd_selR2),
+		.DOUT			(fwd_src_r2)
+	);
 
     // ======= Arithmetic Logic Unit =======
 	logic [31:0] 		result;
@@ -301,9 +408,9 @@ module Otter_MCU_piped
     	.FUNWIDTH		(4)
     )
     ALU(
-        .ALU_FUN		(pr.p1_alu_func),     		// 4'b I
-        .SRC_A			(pr.p1_srcA),          		// 32'b I
-        .SRC_B			(pr.p1_srcB),          		// 32'b I
+        .ALU_FUN		(pr.pr1.alu_func),     		// 4'b I
+        .SRC_A			(fwd_srcA),          		// 32'b I
+        .SRC_B			(fwd_srcB),          		// 32'b I
         // ~~
         .ALU_RESULT		(result)     				// 32'b O
     );
@@ -313,11 +420,11 @@ module Otter_MCU_piped
     
     BranchAddrGen BRANCH_ADDR_GEN
     (
-        .RS1			(pr.p1_rs1),            	// 32'b I 
-        .I_TYPE			(pr.p1_it),            		// 32'b I 
-        .J_TYPE			(pr.p1_jt),            		// 32'b I
-        .B_TYPE			(pr.p1_bt),            		// 32'b I
-        .PC				(pr.p1_pc),                					// 32'b I
+        .RS1			(fwd_src_r1),            	// 32'b I 
+        .I_TYPE			(pr.pr1.it),            		// 32'b I 
+        .J_TYPE			(pr.pr1.jt),            		// 32'b I
+        .B_TYPE			(pr.pr1.bt),            		// 32'b I
+        .PC				(pr.pr1.pc),                					// 32'b I
         // ~~
         .JAL			(jal),              		// 32'b O
         .JALR			(jalr),            			// 32'b O
@@ -330,8 +437,8 @@ module Otter_MCU_piped
 // ================= MEM : Memory Access =================
 // Note : block is in IF stage
 	logic [31:0]		dout2;
-	assign IOBUS_OUT 	= pr.p2_rs2;
-    assign IOBUS_ADDR	= pr.p2_alu_result;
+	assign IOBUS_OUT 	= pr.pr2.rs2;
+    assign IOBUS_ADDR	= pr.pr2.alu_result;
     
     
 // ================= WB : Writeback =================
@@ -339,7 +446,7 @@ module Otter_MCU_piped
 
 	logic [31:0]		reg_w_data;
    	logic [3:0][31:0] 	din_regmux;
-	assign din_regmux 	= {pr.p3_alu_result, pr.p3_dout2, 32'hDEAD_BEEF, pr.p3_pcplus4}; // {in3, in2, in1, in0}
+	assign din_regmux 	= {pr.pr3.alu_result, pr.pr3.dout2, 32'hDEAD_BEEF, pr.pr3.pcplus4}; // {in3, in2, in1, in0}
 
 	Mux_N 
 	#(
@@ -350,10 +457,44 @@ module Otter_MCU_piped
 	REG_MUX 
 	(
 		.DIN			(din_regmux),
-		.SEL			(pr.p3_rf_wr_sel),
+		.SEL			(pr.pr3.rf_wr_sel),
 		.DOUT			(reg_w_data)
 	);
 	
+	
+// ================= HAZARDS =================
+
+	logic 		stall_pipe_ifde;
+	logic 		flush_pipe_ifde, flush_pipe_deex;
+	logic [1:0]	fwd_selA, fwd_selB, fwd_selR1, fwd_selR2;
+
+	HazardUnit HAZ_UNIT
+	(	
+		// ~~~~ fetch ~~~~
+		.STALL_PC				(stall_pc), 		// 1'b O
+		.STALL_PIPE_IFDE		(stall_pipe_ifde),	// 1'b O
+		.FLUSH_PIPE_IFDE		(flush_pipe_ifde), 	// 1'b O
+	
+		// ~~~~ decode ~~~~
+		.DE_IR					(pr.pr0.ir),		// 32'b I
+		.FLUSH_PIPE_DEEX		(flush_pipe_deex), 	// 1'b O
+	
+		// ~~~~ execute ~~~~
+		.EX_IR					(pr.pr1.ir),		// 32'b I
+		.EX_PC_SRC				(pc_source), 		// 2'b I
+		.FWD_SEL_ALUA			(fwd_selA), 		// 2'b O
+		.FWD_SEL_ALUB			(fwd_selB), 		// 2'b O
+		.FWD_SEL_RD1			(fwd_selR1), 		// 2'b O
+		.FWD_SEL_RD2			(fwd_selR2), 		// 2'b O
+	
+		// ~~~~ memory ~~~~
+		.MEM_RD					(pr.pr2.ir[11:7]), 	// 5'b I 
+		.MEM_REGW				(pr.pr2.reg_write), // 1'b I 
+	
+		// ~~~~ writeback ~~~~
+		.WB_RD					(pr.pr3.ir[11:7]), 	// 5'b I
+		.WB_REGW				(pr.pr3.reg_write) 	// 1'b I 
+	    );
  
  
  	// ~~~~ pipe register data transfer ~~~~
@@ -368,50 +509,61 @@ module Otter_MCU_piped
     	else begin
     	
     		// ~~ pipe register 0 : IF -> DE ~~
-    		pr.p0_pc			<= pc; 
-    		pr.p0_pcplus4		<= pc_p4;
-    		pr.p0_ir			<= ir;
+    		if(flush_pipe_ifde) begin
+    			pr.pr0				<= '0;
+    		end
+    		else if(!stall_pipe_ifde) begin
+				pr.pr0.pc			<= pc; 
+				pr.pr0.pcplus4		<= pc_p4;
+				pr.pr0.ir			<= ir;
+			end
     		
     		// ~~ pipe register 1 : DE -> EX ~~
-    		// ~ pass thru ~
-    		pr.p1_pc			<= pr.p0_pc; 
-    		pr.p1_pcplus4		<= pr.p0_pcplus4;
-    		pr.p1_ir			<= pr.p0_ir;
-    		// ~ reg file ~
-    		pr.p1_rs1			<= rs1;
-    		pr.p1_rs2			<= rs2;
-    		// ~ immgen ~
-    		pr.p1_it			<= it;
-			pr.p1_jt			<= jt;
-			pr.p1_bt			<= bt;
-			// ~ mux ~
-    		pr.p1_srcA			<= src_a;
-    		pr.p1_srcB			<= src_b;
-    		// ~ decoder ~
-    		pr.p1_alu_func		<= alu_func;
+    		if(flush_pipe_deex) begin 
+    			pr.pr1				<= '0; 
+    		end
+    		else begin
+				// ~ pass thru ~
+				pr.pr1.pc			<= pr.pr0.pc; 
+				pr.pr1.pcplus4		<= pr.pr0.pcplus4;
+				pr.pr1.ir			<= pr.pr0.ir;
+				// ~ reg file ~
+				pr.pr1.rs1			<= rs1;
+				pr.pr1.rs2			<= rs2;
+				// ~ immgen ~
+				pr.pr1.it			<= it;
+				pr.pr1.jt			<= jt;
+				pr.pr1.bt			<= bt;
+				// ~ mux ~
+				pr.pr1.srcA			<= src_a;
+				pr.pr1.srcB			<= src_b;
+				// ~ decoder ~
+				pr.pr1.alu_func		<= alu_func;
+			end
 
 			// ~~ pipe register 2 : EX -> MEM ~~
     		// ~ pass thru ~
-    		pr.p2_pcplus4		<= pr.p1_pcplus4;
-    		pr.p2_ir			<= pr.p1_ir;
-    		pr.p2_rs2			<= pr.p1_rs2;
+    		pr.pr2.pcplus4			<= pr.pr1.pcplus4;
+    		pr.pr2.ir				<= pr.pr1.ir;
+    		
+    		pr.pr2.rs2				<= fwd_src_r2;
     		// ~ alu ~
-    		pr.p2_alu_result	<= result;
+    		pr.pr2.alu_result		<= result;
     		// ~ data decoder ~
-    		pr.p2_rf_wr_sel		<= rf_wr_sel;
-			pr.p2_reg_write		<= reg_write; 
-			pr.p2_mem_write		<= mem_write; 
-			pr.p2_mem_read2		<= mem_read2;	
+    		pr.pr2.rf_wr_sel		<= rf_wr_sel;
+			pr.pr2.reg_write		<= reg_write; 
+			pr.pr2.mem_write		<= mem_write; 
+			pr.pr2.mem_read2		<= mem_read2;	
     	
     		// ~~ pipe register 3 : MEM -> WB ~~
     		// ~ pass thru ~ 
-    		pr.p3_pcplus4		<= pr.p2_pcplus4;
-    		pr.p3_ir			<= pr.p2_ir;
-    		pr.p3_alu_result	<= pr.p2_alu_result;
-			pr.p3_rf_wr_sel		<= pr.p2_rf_wr_sel;
-			pr.p3_reg_write		<= pr.p2_reg_write;
+    		pr.pr3.pcplus4			<= pr.pr2.pcplus4;
+    		pr.pr3.ir				<= pr.pr2.ir;
+    		pr.pr3.alu_result		<= pr.pr2.alu_result;
+			pr.pr3.rf_wr_sel		<= pr.pr2.rf_wr_sel;
+			pr.pr3.reg_write		<= pr.pr2.reg_write;
     		// ~ memory ~
-    		pr.p3_dout2			<= dout2;
+    		pr.pr3.dout2			<= dout2;
     		 
     	end
     end

@@ -83,8 +83,12 @@ module Memory (
 		
 		//$readmemh("tc3x3.mem", memory, 0, 16383);							// cpe333 : lab2				
 		//$readmemh("tc10x10.mem", memory, 0, 16383);
-		//$readmemh("tc16x16.mem", memory, 0, 16383);
-		$readmemh("l3test_given_updated.mem", memory, 0, 16383);			// CPE333 lab : 3
+		$readmemh("tc16x16.mem", memory, 0, 16383);
+		//$readmemh("l3test_given_updated.mem", memory, 0, 16383);			// CPE333 : lab3
+		//$readmemh("l4test.mem", memory, 0, 16383);							// CPE333 : lab4
+		//$readmemh("l4test_1.mem", memory, 0, 16383);							// CPE333 : lab4
+		//$readmemh("l4test_2.mem", memory, 0, 16383);							// CPE333 : lab4
+		//$readmemh("l4test_3.mem", memory, 0, 16383);							// CPE333 : lab4
 		
 		
 	end
@@ -99,14 +103,14 @@ module Memory (
     //                || MEM_ADDR1[1:0] != 2'b0 || MEM_ADDR2[1:0] !=2'b0)? 1 : 0;
             
     // ~~~~ buffer the IO input for reading ~~~~
-	always_ff @(posedge MEM_CLK)
+	always_ff @(negedge MEM_CLK)
 	begin
 		if(MEM_RDEN2)
 			ioBuffer <= IO_IN;
 	end
     
     // ~~~~ BRAM requires all reads and writes to occur synchronously ~~~~
-	always_ff @(posedge MEM_CLK)
+	always_ff @(negedge MEM_CLK)
 	begin
 
 		// ~~ save data (WD) to memory (ADDR2) ~~
@@ -168,7 +172,8 @@ module Memory (
 			5'b1_01_10: memReadSized = {16'd0,memReadWord[31:16]};
 			5'b1_01_01: memReadSized = {16'd0,memReadWord[23:8]};
 			5'b1_01_00: memReadSized = {16'd0,memReadWord[15:0]};
-			// ~ unsigned word is missing? ~
+			// ~ word ~
+			5'b1_10_00: memReadSized = memReadWord;
 
 			default:  memReadSized = 32'b0;				// unsupported size, byte offset combination
 		endcase

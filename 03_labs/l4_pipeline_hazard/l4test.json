@@ -1,0 +1,62 @@
+
+{ 	signal:
+  	[
+      {
+        name: 'clk', 				
+        wave: 'P..........',
+      	
+      },     
+      {
+        name: 'addi x7, zero, 7', 	
+        wave: '34567x.....', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },     
+      {
+        name: 'addi x8, zero, 6', 	
+        wave: 'x34567x....', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '....a'
+      },
+      {
+        name: 'slli x8, x8, 12', 		
+        wave: 'x.34567x...', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '....b'
+      },
+      {
+        name: 'addi x10, zero, 10', 		
+        wave: 'x..34567x..', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '......c'
+      },
+      {
+        name: 'or, x11, x7, x10', 		
+        wave: 'x...34567x.', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '......de'
+      },
+      {
+        name: 'sw x11, 0(x8)', 		
+        wave: 'x....34567x', 
+        data: ["IF","DE", "EX", "MEM", "WB"],
+        node: '.......f'
+      },
+	],
+  
+  config: {hscale:2},
+  
+  head:
+  {
+    text: "l4test.asm",
+    tick:0
+  },
+  
+  "edge":
+  [
+  	"a~b", "c~d", "e~f"
+  ],
+    
+	
+}
+
