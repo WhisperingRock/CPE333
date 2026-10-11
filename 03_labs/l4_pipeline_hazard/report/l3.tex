@@ -259,16 +259,171 @@
 			\item Additional testing on JUMP \ref{ottertest:t3} were confirmed to pass in 
 				simulation as well as Diego's Testall on hardware at 
 				this point. 
-
-
 		\end{itemize}
+
 	\chapter{Results}
+
 		After passing the basic testfiles and Diego's Testall, we must benchmark 
 		the matrix multiplication program to see if we gained any latency or throughput
-		boosts. Note, we should only be seeing a boost in throughput. 
+		boosts. For more information on the test setup, see lab 2. 
+		Note, we should only be seeing a boost in throughput. 
 
+		\section{TC 3x3}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[
+					width			= 0.8\textwidth,
+					keepaspectratio	= true
+				]{../3b3.png}
+				\caption{Simulation Results of a 3x3 Multiplication}
+				\label{fig:3b3}
+			\end{figure}
+
+			\begin{align*}
+				t_{execution} &= t_{end} - t_{start} \\
+				&= 16.53\mu s - 1.20\mu s \\
+				&= 15.33\mu s
+			\end{align*}
+
+			\begin{align*}
+				n_{clk-cycles}&= \frac{t_{execution}}{T_{CLK}} \\
+				&= \frac{15.33\mu s}{10ns} \\
+				&= 1533 \\
+			\end{align*}
+
+		\section{TC 10x10}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[
+					width			= 0.8\textwidth,
+					keepaspectratio	= true
+				]{../10b10.png}
+				\caption{Simulation Results of a 10x10 Multiplication}
+				\label{fig:10b10}
+			\end{figure}
+
+			\begin{align*}
+				t_{execution} &= t_{end} - t_{start} \\
+				&= 1086.30\mu s - 1.62\mu s \\
+				&= 1084.68\mu s
+			\end{align*}
+
+			\begin{align*}
+				n_{clk-cycles}&= \frac{t_{execution}}{T_{CLK}} \\
+				&= \frac{1084.68\mu s}{10ns} \\
+				&= 108,468
+			\end{align*}
+
+		\section{TC 16x16}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[
+					width			= 0.8\textwidth,
+					keepaspectratio	= true
+				]{../16b16.png}
+				\caption{Simulation Results of a 16x16 Multiplication}
+				\label{fig:16b16}
+			\end{figure}
+
+			\begin{align*}
+				t_{execution} &= t_{end} - t_{start} \\
+				&= 4341.9\mu s - 1.62\mu s \\
+				&= 4340.28\mu s
+			\end{align*}
+
+			\begin{align*}
+				n_{clk-cycles}&= \frac{t_{execution}}{T_{CLK}} \\
+				&= \frac{4340.28\mu s}{10ns} \\
+				&= 434,028
+			\end{align*}
+
+		\section{Comparing MultiCycle against Pipeline}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						title		= {Matrix Multiplication Timing},
+						xlabel		= {\small Elements in Matrix},
+						ylabel		= {\small Elapsed Clock Cycles},
+						xmin		= -50,
+						xmax		= 300,
+						ymin		= 0, 
+						ymax		= 1500000,
+						%axis lines	= middle,
+						grid		= both,
+						legend pos	= north west,
+						enlargelimits = 0.05
+						]
+
+						% ~~ plot lines ~~
+						\addplot[
+							color	= blue,
+							mark	= square,
+							]
+							coordinates{
+								(9,		8118)
+								(100,	283840)
+								(256,	1140520)};
+						\addlegendentry{Multicycle}
+
+						% ~~ labels ~~
+						\node [above left] at (axis cs:9,8118) {\tiny$(8118)$};
+						\node [above left] at (axis cs:100,283840) {\tiny$(283840)$};
+						\node [above left] at (axis cs:256,1140520) {\tiny$(1140520)$};
+
+
+						\addplot[
+							color	= red,
+							mark	= triangle,
+							]
+							coordinates{
+								(9,		1533)
+								(100,	108468)
+								(256,	434028)};
+						\addlegendentry{Pipeline}
+
+						% ~~ labels ~~
+						\node [left] at (axis cs:9,1533) {\tiny$(1533)$};
+						\node [below right] at (axis cs:100,108468) {\tiny$(108468)$};
+						\node [below] at (axis cs:256,434028) {\tiny$(434028)$};
+
+					\end{axis}
+				\end{tikzpicture}
+				\caption{Computation Trend for Matrix Multiplication}
+				\label{}
+			\end{figure}	
+
+
+			\hl{todo math}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[
+					width			= 0.8\textwidth,
+					keepaspectratio	= true
+				]{../power.png}
+				\caption{Power Usage on Synthesis of Pipelined Otter}
+				\label{fig:power}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[
+					width			= 0.8\textwidth,
+					keepaspectratio	= true
+				]{../util.png}
+				\caption{Area Usage on Synthesis of Pipelined Otter}
+				\label{fig:util}
+			\end{figure}
+
+			By these graphs, we used a lot more FF's than the multicycle in
+			lab2 but power was reduced and throughput was greatly increased.
 
 	\chapter{Conclusion}
+
+		Pipelines are great for throughput if we can afford the increased
+		area and FF usage!
+
 	\chapter{Appendix}
 		\section{RTL Code}
 
