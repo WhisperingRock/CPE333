@@ -1,0 +1,62 @@
+
+{ 	signal:
+  	[
+      {
+        name: 'clk', 				
+        wave: 'P..........',
+      	
+      },     
+      {
+        name: 'addi s1, zero, 6', 	
+        wave: '34567x.....', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'slli s1, s1, 12', 		
+        wave: 'x.34567x...', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'ori s1, s1, 0', 		
+        wave: 'x..34567x..', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'sw, s1, 0(s1)', 		
+        wave: 'x...34567x.', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+      {
+        name: 'lw s0, 0(s1)', 		
+        wave: 'x....34567x', 
+        data: ["IF","DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+	  {
+        name: 'sw s1, 4(s0)', 		
+        wave: 'x....34567x', 
+        data: ["IF","DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+	],
+  
+  config: {hscale:1},
+  
+  head:
+  {
+    text: "Haz Pipeline",
+    tick:0
+  },
+  
+  "edge":
+  [
+  	"a~b", "c~d",
+  ],
+    
+	
+}
+

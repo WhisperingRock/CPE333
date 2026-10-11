@@ -1,0 +1,110 @@
+
+{ 	signal:
+  	[
+      {
+        name: 'clk', 				
+        wave: 'P...................',
+      	
+      },
+      {
+        name: 'addi s1, zero, 6', 	
+        wave: '34567x..............', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '...a'
+      },
+      {
+        name: 'slli s1, s1, 12', 		
+        wave: 'x34567x.............', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '...bc'
+      },
+      {
+        name: 'or, s1, s1, 0', 		
+        wave: 'x.34567x............', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '....de'
+      },
+      {
+        name: 'bne s1, zero LABEL1', 		
+        wave: 'x..34567x...........', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '.....f'
+      },
+      {
+        name: '', 	
+        wave: 'x...9....x..........', 
+        data: ["FLUSH"],
+        node: '......'
+      },
+      {
+        name: '', 	
+        wave: 'x....9....x.........', 
+        data: ["FLUSH"],
+        node: '......'
+      },
+      {
+        name: 'addi s1, s1, 12', 	
+        wave: 'x.....34567x........', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '.........'
+      },
+      {
+        name: 'j LABEL2', 	
+        wave: 'x......34567x.......', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '...'
+      },
+      {
+        name: '', 	
+        wave: 'x.......9....x......', 
+        data: ["FLUSH"],
+        node: '......'
+      },
+      {
+        name: '', 	
+        wave: 'x........9....x.....', 
+        data: ["FLUSH"],
+        node: '......'
+      },
+      {
+        name: 'sw s1, 0(s1)', 		
+        wave: 'x.........34567x....', 
+        data: ["IF", "DE", "EX", "MEM", "WB"],
+        node: '.............g'
+      },
+      {
+        name: 'lw s0, 0(s1)', 		
+        wave: 'x..........34567x...', 
+        data: ["IF", "DE","EX", "MEM", "WB"],
+        node: '.............h'
+      },
+      {
+        name: 'sw s1, 4(s0)', 		
+        wave: 'x...........349567x.', 
+        data: ["IF", "DE", "STALL", "EX", "MEM", "WB"],
+        node: '...........l'
+      },
+      {
+        name: 'bne s1, s1 RET', 		
+        wave: 'x............394567x', 
+        data: ["IF","STALL", "DE", "EX", "MEM", "WB"],
+        node: ''
+      },
+	],
+  
+  config: {hscale:1},
+  
+  head:
+  {
+    text: "l4test_2.asm",
+    tick:0
+  },
+  
+  "edge":
+  [
+  	"a~b", "c~d", "e~f", "g~h", "i~j", "k~l"
+  ],
+    
+	
+}
+

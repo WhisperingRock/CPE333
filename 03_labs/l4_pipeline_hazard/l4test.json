@@ -11,50 +11,50 @@
         wave: '34567x.....', 
         data: ["IF", "DE", "EX", "MEM", "WB"],
         node: ''
-      },
+      },     
       {
-        name: 'addi x8, zero, 4', 		
+        name: 'addi x8, zero, 6', 	
         wave: 'x34567x....', 
         data: ["IF", "DE", "EX", "MEM", "WB"],
-        node: ''
+        node: '....a'
       },
       {
         name: 'slli x8, x8, 12', 		
         wave: 'x.34567x...', 
         data: ["IF", "DE", "EX", "MEM", "WB"],
-        node: ''
+        node: '....b'
       },
       {
         name: 'addi x10, zero, 10', 		
         wave: 'x..34567x..', 
         data: ["IF", "DE", "EX", "MEM", "WB"],
-        node: ''
+        node: '......c'
       },
       {
-        name: 'or x11, x7, x10', 		
+        name: 'or, x11, x7, x10', 		
         wave: 'x...34567x.', 
         data: ["IF", "DE", "EX", "MEM", "WB"],
-        node: ''
+        node: '......de'
       },
       {
         name: 'sw x11, 0(x8)', 		
         wave: 'x....34567x', 
         data: ["IF","DE", "EX", "MEM", "WB"],
-        node: ''
+        node: '.......f'
       },
 	],
   
-  config: {hscale:1},
+  config: {hscale:2},
   
   head:
   {
-    text: "Haz Pipeline",
+    text: "l4test.asm",
     tick:0
   },
   
   "edge":
   [
-  	"a~b", "c~d",
+  	"a~b", "c~d", "e~f"
   ],
     
 	

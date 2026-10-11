@@ -114,7 +114,7 @@
 
 \pdfsuppresswarningpagegroup=1
 
-\title{\Huge{Naive RISCV-I Pipeline}}
+\title{\Huge{Hazard-Handling RISCV-I Pipeline}}
 \author{\textbf{Authors:} WhisperingRock\\}
 \date{CPE333\\ \small{Fall2026} \\ \today}
 
@@ -128,133 +128,164 @@
 	\tableofcontents
 
 	\chapter{Introduction}
-		In this report, an implementation of a naive RISCV-I Otter is constructed
-		and tested against a simple piece of assembly. This design is 
-		considered naive because we must manually include \texttt{nop} in our 
-		assembly code to mitigate data hazards. 
+		In this report, an implementation of a pipelined RISCV-I Otter 
+		is constructed and improved to handle data and control hazards
+		through the use of forwarding and stalling s.t. we no longer need
+		to manually code \texttt{nop} in our assembly code.
 
 	\chapter{Design}
-	
-		To convert our multicycle otter to a pipelined one, pipe registers
-		are needed and stages be implemented. 
-
-		The stages are 
-		\begin{itemize}
-			\item \textbf{IF} : The PC \textbf{I}nstruction \textbf{F}etched from ram/memory.
-			\item \textbf{DE} : The instruction \textbf{DE}coded and register values gathered.
-			\item \textbf{EX} : The instruction is \textbf{EX}ecuted and result stored / branch prep.
-			\item \textbf{MEM}: A directed read or write to \textbf{MEM}ory occurs. 
-			\item \textbf{WB} : \textbf{W}rite results \textbf{B}ack to register.
-		\end{itemize}
+		To properly handle data hazard Read-After-Write (RAW), we need
+		to implement some way to \textit{forward} overwrite data to registers
+		that need to read this data. Previously, we've used \texttt{nop} to stall
+		the reading process in \textbf{EX} until the overwrite occurs in \textbf{WB}.
+		Now, we can forward this data without stalling using the \textbf{Hazard Unit}
+		and a few muxes.\\ Note the forwarded data is the thick orange and purple
+		lines. The updated MCU can be found here \ref{otter:mcu}.
 
 		\begin{figure}[H]
 			\centering
 			\includegraphics[
-				width			= 0.5\textwidth,
+				width			=1.1 \textwidth,
 				keepaspectratio	= true
-			]{../simple_pipe.png}
-			\caption{Example of Naive RISCV-I Pipeline}
-			\label{fig:simple-pipe}
+			]{../../../pipeline_haz.png}
+			\caption{Hazard-Handling Pipelined RISCV Otter}
+			\label{fig:hazpipeotter}
 		\end{figure}
+
+		The \textbf{Hazard Unit} \ref{otter:haz} is responsible for 
+		handling forwarding and stalling to prevent hazards. Figure \ref{otter:haz}
+		explains how the unit flows and can be seen with the other modules
+		in figure \ref{fig:hazpipeotter} as the orange block on the bottom.
 
 		\begin{figure}[H]
 			\centering
 			\includegraphics[
-				width			= 1\textwidth,
-				keepaspectratio	= true,
-			]{../pipeline_nohaz.png}
-			\caption{Detailed Naive RISCV-I Pipeline}
-			\label{fig:detail-pipe}
+				width			= 0.35\textwidth,
+				keepaspectratio	= true
+			]{../../../03_labs/l4_pipeline_hazard/haz_fsm.png}
+			\caption{Hazard Unit Flow Diagram}
+			\label{fig:haz-flow}
 		\end{figure}
 
-		Modules updated to implement the pipeline (from CPE's 233 Multicycle Otter):
-		\begin{itemize}
-			\item Remove CSR components
-			\item \textbf{MCU} received re-org and pipe registers \ref{otter:mcu-pipe}.
-			\item \textbf{RegFile} changed to write on negative edge \ref{otter:rf} 
-				in order to perform writes in \textbf{WB} and reads in \textbf{DE}.
-			\item The Control Unit FSM was removed because it is made redundant 
-				with the pipeline
-			\item The Control Unit Decoder was split into two parts, \ref{otter:alu-dc} 
-				and \ref{otter:data-dc}, to shorting propagation timing. 
-		\end{itemize}
-		
+		\hl{NOTE} Both memory and register file modules write on the negedge 
+		rather than the posedge of the clock to meet the timing demand of
+		the pipeline. See \ref{otter:rf} and \ref{otter:mem}. 
+
 	\chapter{Testing}
+		The new MCU Otter required more testing with Diego's Testall as the 
+		final test. Consider :
 
-		A simple test program was given to ensure our restructure was 
-		surface-level correct enough to be able to handle WB writes and 
-		DE reads of the same variable. Due to the default memory mapping 
-		below, an additional instruction was used to load the lengthy 
-		DATA segment address along with the appropriate number of \texttt{nop}s.
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[
-				width			= 0.6\textwidth,
-				keepaspectratio	= true
-			]{../setting_memmap.png}
-			\caption{Memory Mapping}
-			\label{fig:memmap}
-		\end{figure}	
-
-		\lstinputlisting[
-			language 	= {[riscv]Assembler},
-			captionpos	= top, 
-			caption		= {\texttt{l3test\_given\_updated.sv}},
-			breaklines	= false, 
-			label		= {otter:pipe-test}
-		]{../given/l3test_given_updated.asm}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[
-				width			= \textwidth,
-				keepaspectratio	= true
-			]{../updated_timing.png}
-			\caption{Expected Timing Nearing 15 Cycles}
-			\label{fig:test-timing}
-		\end{figure}
-
-	\chapter{Results}
+		\begin{itemize}
+			\item RAW hazards \ref{ottertest:t0}
 	
-		\begin{figure}[H]
-			\centering
-			\includegraphics[
-				width			= \textwidth,
-				keepaspectratio	= true
-			]{../sim_result.png}
-			\caption{Simulation Results}
-			\label{fig:sim-result}
-		\end{figure}
+				\begin{figure}[H]
+					\centering
+					\begin{subfigure}{\textwidth}
+						\centering
+						\includegraphics[
+							width			= 0.8\textwidth,
+							keepaspectratio	= true
+						]{../exp_time_l4test.png}
+						\caption{Expected Time or testfile}
+						\label{fig:}
+					\end{subfigure}
+					\begin{subfigure}{\textwidth}
+						\centering
+						\includegraphics[
+							width			= \textwidth,
+							keepaspectratio	= true
+						]{../act_time_l4test.png}
+						\caption{Simulation Time of testfile}
+						\label{fig:}
+					\end{subfigure}
+					\label{fig:t0}
+				\end{figure}
+				
+				We can conclude that with our early MEM/WB writes on neg edges, 
+				the expected timing matches the simulated. 
 
-		Timings above are on par with the expected result in \ref{fig:test-timing} such that
-		we take 15 cycles to load \texttt{0xF} into the address and each cycle reaches
-		their respective WB or MEM in cadence with \ref{fig:test-timing}.
+			\item RAW hazards with LOAD stalling \ref{ottertest:t1}
+	
+				\begin{figure}[H]
+					\centering
+					\begin{subfigure}{\textwidth}
+						\centering
+						\includegraphics[
+							width			= 0.9\textwidth,
+							keepaspectratio	= true
+						]{../exp_time_l4test1.png}
+						\caption{Expected Time or testfile}
+					\end{subfigure}
+					\begin{subfigure}{\textwidth}
+						\centering
+						\includegraphics[
+							width			= 1.1\textwidth,
+							keepaspectratio	= true
+						]{../act_time_l4test1.png}
+						\caption{Simulation Time of testfile}
+					\end{subfigure}
+					\label{fig:t1}
+				\end{figure}
+				
+				We can conclude that with our early MEM/WB writes on neg edges, 
+				the expected timing matches the simulated. 
+
+			\item RAW hazards with LOAD stalling and BRANCH flushing \ref{ottertest:t2}
+	
+				\begin{figure}[H]
+					\centering
+					\begin{subfigure}{\textwidth}
+						\centering
+						\includegraphics[
+							width			= 0.9\textwidth,
+							keepaspectratio	= true
+						]{../exp_time_l4test2.png}
+						\caption{Expected Time or testfile}
+					\end{subfigure}
+					\begin{subfigure}{\textwidth}
+						\centering
+						\includegraphics[
+							width			= 1.1\textwidth,
+							keepaspectratio	= true
+						]{../act_time_l4test2.png}
+						\caption{Simulation Time of testfile}
+					\end{subfigure}
+					\label{fig:t2}
+				\end{figure}
+				
+				We can conclude that with our early MEM/WB writes on neg edges, 
+				the expected timing matches the simulated. 
+
+			\item Additional testing on JUMP \ref{ottertest:t3} were confirmed to pass in 
+				simulation as well as Diego's Testall on hardware at 
+				this point. 
 
 
-		Moreover, an explanation is owed as to why there is a difference between
-		our input address of \texttt{0x6000} in \ref{otter:pipe-test} 
-		and the output location of \texttt{mem[6144]} in \ref{fig:sim-result}.
-		Consider that the memory blocks are in increments of bytes, and a block 
-		containing 4 of them to make 32 bits, therefore each decimal increase 
-		of our simulation memory location goes up by four. Put another way, 
-		our DATA segment will be stored at $\frac{32'h0000\_6000}{4} = 32'h0000\_1800 = 32'd6144$.
+		\end{itemize}
+	\chapter{Results}
+		After passing the basic testfiles and Diego's Testall, we must benchmark 
+		the matrix multiplication program to see if we gained any latency or throughput
+		boosts. Note, we should only be seeing a boost in throughput. 
+
 
 	\chapter{Conclusion}
-
-		The naive pipeline can perform a select few instructions but we
-		the authors must depend on manual placement of \texttt{nop}s until
-		we have a solution to deal with hazards.
-
 	\chapter{Appendix}
-		\section{Code}
+		\section{RTL Code}
+
+			\lstinputlisting[
+				language 	= {verilog},
+				captionpos	= top, 
+				caption		= {\texttt{HazardUnit.sv}},
+				breaklines	= false, 
+				label		= {otter:haz}
+			]{../../../04_hardware/src/HazardUnit.sv}
 
 			\lstinputlisting[
 				language 	= {verilog},
 				captionpos	= top, 
 				caption		= {\texttt{Otter\_MCU\_piped.sv}},
 				breaklines	= false, 
-				label		= {otter:mcu-pipe}
+				label		= {otter:mcu}
 			]{../../../04_hardware/src/Otter_MCU_piped.sv}
 
 			\lstinputlisting[
@@ -268,17 +299,47 @@
 			\lstinputlisting[
 				language 	= {verilog},
 				captionpos	= top, 
-				caption		= {\texttt{Data\_Decoder.sv}},
+				caption		= {\texttt{otter\_memory\_v1\_07.sv}},
 				breaklines	= false, 
-				label		= {otter:data-dc}
-			]{../../../04_hardware/src/Data_Decoder.sv}
+				label		= {otter:mem}
+			]{../../../04_hardware/src/otter_memory_v1_07.sv}
+
+
+		\section{Testing Code}
+			\lstinputlisting[
+				language 	= {[riscv]Assembler},
+				captionpos	= top, 
+				caption		= {\texttt{l4test.asm}},
+				breaklines	= false, 
+				label		= {ottertest:t0}
+			]{../l4test.asm}
 
 			\lstinputlisting[
-				language 	= {verilog},
+				language 	= {[riscv]Assembler},
 				captionpos	= top, 
-				caption		= {\texttt{ALU\_Decoder.sv}},
+				caption		= {\texttt{l4test\_1.asm}},
 				breaklines	= false, 
-				label		= {otter:alu-dc}
-			]{../../../04_hardware/src/ALU_Decoder.sv}
+				label		= {ottertest:t1}
+			]{../l4test_1.asm}
+
+			\lstinputlisting[
+				language 	= {[riscv]Assembler},
+				captionpos	= top, 
+				caption		= {\texttt{l4test\_2.asm}},
+				breaklines	= false, 
+				label		= {ottertest:t2}
+			]{../l4test_2.asm}
+
+			\lstinputlisting[
+				language 	= {[riscv]Assembler},
+				captionpos	= top, 
+				caption		= {\texttt{l4test\_3.asm}},
+				breaklines	= false, 
+				label		= {ottertest:t3}
+			]{../l4test_3.asm}
+
+
+
+
 
 \end{document}
