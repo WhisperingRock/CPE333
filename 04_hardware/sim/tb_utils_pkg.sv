@@ -41,13 +41,13 @@ package tb_utils_pkg;
         
         // ~~ methods ~~
         function void new_test(input string mes);
-            this.testnum++;
+            this.testnum = this.testnum + 1;
             this.err_cnt = 0;
             $display("\nStarting TC%0d : %s", this.testnum, mes);
         endfunction
         
         function void err(input string mes); 
-            this.err_cnt++; 
+            this.err_cnt = this.err_cnt + 1; 
             $display("|\t\tERROR: %s", mes);
         endfunction: err 
 
@@ -68,5 +68,7 @@ package tb_utils_pkg;
         function void print_subtest(input string mes);
             $display("|-%s", mes);
         endfunction
+        
     endclass
+    
 endpackage
